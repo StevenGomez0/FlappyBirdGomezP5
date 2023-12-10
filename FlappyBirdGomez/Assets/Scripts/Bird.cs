@@ -13,7 +13,6 @@ public class Bird : MonoBehaviour
 
     public AudioClip death;
     public AudioClip flap;
-    public AudioClip scored;
 
     // Start is called before the first frame update
     void Start()
@@ -38,13 +37,15 @@ public class Bird : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter2D()
+    private void OnCollisionEnter2D()
     {
         rb2d.velocity = Vector2.zero;
+        if(isDead == false)
+        {
+            PlaySound(death);
+        }
         isDead = true;
         anim.SetTrigger("Die");
-        PlaySound(death);
-
         GameControl.instance.BirdDied();
     }
     public void PlaySound(AudioClip clip)

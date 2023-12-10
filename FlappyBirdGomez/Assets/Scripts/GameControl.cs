@@ -12,11 +12,14 @@ public class GameControl : MonoBehaviour
     public bool gameOver = false;
     public float scrollSpeed = -1.5f;
     public TextMeshProUGUI scoreText;
-    
+    private Animator anim;
+    public AudioClip scored;
     private int score = 0;
+    private AudioSource audio;
 
     private void Awake()
     {
+        anim = GetComponent<Animator>();
         if (instance == null)
         {
             instance = this;
@@ -25,6 +28,7 @@ public class GameControl : MonoBehaviour
         {
             Destroy (gameObject);
         }
+        audio = GetComponent<AudioSource>();
     }
     public void BirdDied()
     {
@@ -40,6 +44,7 @@ public class GameControl : MonoBehaviour
         }
         score++;
         scoreText.text = "Score: " + score.ToString ();
+        PlaySound(scored);
     }
 
     private void Update()
@@ -48,5 +53,10 @@ public class GameControl : MonoBehaviour
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
+    }
+
+    public void PlaySound(AudioClip clip)
+    {
+        audio.PlayOneShot(clip);
     }
 }
